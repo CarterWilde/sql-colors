@@ -36,7 +36,7 @@ function parseHex(hex){
 }
 
 app.get('/users', (req, res) => {
-    con.query("SELECT * FROM usersurvey.usersurveyresults;", (err, result) => {
+    con.query("SELECT * FROM heroku_5cc9dc52e313a97.usersurveyresults;", (err, result) => {
         if (err) throw err;
         res.json(result);
     });
