@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 app.post('/user', (req, res) => {
     res.redirect('/views/users');
     if(req.body.name !== ""){
-        let sql = "INSERT INTO `usersurvey`.`usersurveyresults` (`UserName`, `UserColor`) VALUES ('" + req.body.name + "', '" + parseHex(req.body.color) + "');"
+        let sql = "INSERT INTO `heroku_5cc9dc52e313a97`.`usersurveyresults` (`UserName`, `UserColor`) VALUES ('" + req.body.name + "', '" + parseHex(req.body.color) + "');"
         con.query(sql, (err, result) => { 
             if (err) throw err;
         });
