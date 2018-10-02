@@ -3,16 +3,18 @@ const app = express();
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 
-const con = mysql.createConnection({
-    host: "us-cdbr-iron-east-01.cleardb.net",
-    user: "bedadae9fdd3d4",
-    password: process.env.SQL_PASSWORD
-});
-
-con.connect(err => {
-    if (err) throw err;
-    console.log('Connected To SQL Database!');
-});
+function connectSQL(){
+    const con = mysql.createConnection({
+        host: "us-cdbr-iron-east-01.cleardb.net",
+        user: "bedadae9fdd3d4",
+        password: process.env.SQL_PASSWORD
+    });
+    con.connect(err => {
+        if (err) throw err;
+        console.log('Connected To SQL Database!');
+    });
+    return con;
+}
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true })); 
@@ -22,10 +24,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/user', (req, res) => {
-    con.connect(err => {
-        if (err) throw err;
-        console.log('Connected To SQL Database!');
-    });
+    let con = connectSQL();
     res.redirect('/views/users');
     if(req.body.name !== ""){
         let sql = "INSERT INTO `heroku_5cc9dc52e313a97`.`usersurveyresults` (`UserName`, `UserColor`) VALUES ('" + req.body.name + "', '" + parseHex(req.body.color) + "');"
@@ -40,10 +39,7 @@ function parseHex(hex){
 }
 
 app.get('/users', (req, res) => {
-    con.connect(err => {
-        if (err) throw err;
-        console.log('Connected To SQL Database!');
-    });
+    let con = connectSQL();
     con.query("SELECT * FROM heroku_5cc9dc52e313a97.usersurveyresults;", (err, result) => {
         if (err) throw err;
         res.json(result);
