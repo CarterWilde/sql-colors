@@ -22,6 +22,10 @@ app.get('/', (req, res) => {
 });
 
 app.post('/user', (req, res) => {
+    con.connect(err => {
+        if (err) throw err;
+        console.log('Connected To SQL Database!');
+    });
     res.redirect('/views/users');
     if(req.body.name !== ""){
         let sql = "INSERT INTO `heroku_5cc9dc52e313a97`.`usersurveyresults` (`UserName`, `UserColor`) VALUES ('" + req.body.name + "', '" + parseHex(req.body.color) + "');"
@@ -36,6 +40,10 @@ function parseHex(hex){
 }
 
 app.get('/users', (req, res) => {
+    con.connect(err => {
+        if (err) throw err;
+        console.log('Connected To SQL Database!');
+    });
     con.query("SELECT * FROM heroku_5cc9dc52e313a97.usersurveyresults;", (err, result) => {
         if (err) throw err;
         res.json(result);
