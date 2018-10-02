@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 
 const con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
+    host: process.env.CLEARDB_GREEN_CLEARDB_HOSTNAME_1,
+    user: process.env.CLEARDB_GREEN_CLEARDB_ENVIRONMENT_ID,
     password: process.env.SQL_PASSWORD
 });
 
@@ -53,4 +53,4 @@ app.get('/main.js', (req, res) => {
 app.get('/style.css', (req, res) => {
     res.sendFile(__dirname + '/style.css');
 });
-app.listen(3000, () => console.log('Listening on port 3000!'));
+app.listen(process.env.PORT || 3000, () => console.log(`Listening on port ${process.env.PORT || 3000}!`));
