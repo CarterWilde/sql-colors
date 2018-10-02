@@ -24,13 +24,24 @@ app.get('/', (req, res) => {
 });
 
 app.post('/user', (req, res) => {
-    let con = connectSQL();
-    res.redirect('/views/users');
-    if(req.body.name !== ""){
-        let sql = "INSERT INTO `heroku_5cc9dc52e313a97`.`usersurveyresults` (`UserName`, `UserColor`) VALUES ('" + req.body.name + "', '" + parseHex(req.body.color) + "');"
-        con.query(sql, (err, result) => { 
-            if (err) throw err;
-        });
+    try{
+        let con = connectSQL();
+        res.redirect('/views/users');
+        if(req.body.name !== ""){
+            let sql = "INSERT INTO `heroku_5cc9dc52e313a97`.`usersurveyresults` (`UserName`, `UserColor`) VALUES ('" + req.body.name + "', '" + parseHex(req.body.color) + "');"
+            con.query(sql, (err, result) => { 
+                if (err) throw err;
+            });
+        }
+    } catch(error){
+        let con = connectSQL();
+        res.redirect('/views/users');
+        if(req.body.name !== ""){
+            let sql = "INSERT INTO `heroku_5cc9dc52e313a97`.`usersurveyresults` (`UserName`, `UserColor`) VALUES ('" + req.body.name + "', '" + parseHex(req.body.color) + "');"
+            con.query(sql, (err, result) => { 
+                if (err) throw err;
+            });
+        }
     }
 });
 
@@ -40,10 +51,18 @@ function parseHex(hex){
 
 app.get('/users', (req, res) => {
     let con = connectSQL();
-    con.query("SELECT * FROM heroku_5cc9dc52e313a97.usersurveyresults;", (err, result) => {
-        if (err) throw err;
-        res.json(result);
-    });
+    try{
+        con.query("SELECT * FROM heroku_5cc9dc52e313a97.usersurveyresults;", (err, result) => {
+            if (err) throw err;
+            res.json(result);
+        });
+    }catch(error){
+        let con = connectSQL();
+        con.query("SELECT * FROM heroku_5cc9dc52e313a97.usersurveyresults;", (err, result) => {
+            if (err) throw err;
+            res.json(result);
+        });
+    }
 });
 
 app.get('/views/users', (req, res) => {
