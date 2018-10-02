@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 
 const con = mysql.createConnection({
-    host: "us-cdbr-iron-east-01.cleardb.net:3306",
+    host: "us-cdbr-iron-east-01.cleardb.net",
     user: "bedadae9fdd3d4",
     password: process.env.SQL_PASSWORD
 });
