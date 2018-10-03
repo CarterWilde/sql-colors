@@ -1,7 +1,9 @@
 function getData(){
+    
     fetch('/users')
     .then( data => {return data.json()})
     .then( json => {
+        console.log(json);
         json.forEach(item => {
             let itemElement = document.createElement("useritem");
             let name = document.createTextNode(item.UserName);
